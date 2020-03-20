@@ -31,7 +31,7 @@ def capture_frame(filePath, output_dir, mirror=False):
         if (delta == 0 or delta > 1):
             # Première frame
             if delta == 0:
-                cv2.imwrite(os.path.join('.', '%d.png') % count, frame)
+                cv2.imwrite(os.path.join(output_dir, 'Unit_%03d.png') % count, frame)
                 count += 1
 
             if lastFrame is not None:
@@ -47,7 +47,7 @@ def capture_frame(filePath, output_dir, mirror=False):
 
                 # On sauvegarde quand on change de vue.
                 if score < 0.99:
-                    cv2.imwrite(os.path.join(output_dir, '%d.png') % count, frame)
+                    cv2.imwrite(os.path.join(output_dir, 'Unit_%03d.png') % count, frame)
                     count += 1
 
             start = end
