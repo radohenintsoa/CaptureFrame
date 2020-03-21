@@ -9,8 +9,8 @@ import argparse
 
 def merge_images_to_pdf(path, pdf_path):
     onlyfiles = sorted([f for f in listdir(path ) if f.startswith('Unit_') and f.endswith('.png') and isfile(join(path, f))])    
-    batches = np.array_split(onlyfiles, math.ceil(len(onlyfiles)/3))
-    
+    batches = chunk(onlyfiles, 3)
+   
     i = 1
     imginfo = None
     input_pdf_img = []
@@ -30,6 +30,26 @@ def merge_images_to_pdf(path, pdf_path):
         pdf.image(k,0,0)
     
     pdf.output(pdf_path, "F")
+
+def chunk(list, part_size):
+    if list is None or len(list) <= part_size:
+        return list
+
+    results = []
+    parts = []
+    index = 0
+    for item in list:
+        index += 1
+        if index <= part_size:
+            parts.append(item)
+        else:
+            index = 1
+            results.append(parts)
+            parts = [item]
+    if len(parts) > 0:
+        results.append(parts)
+    return results
+
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()

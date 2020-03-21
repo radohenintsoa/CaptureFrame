@@ -5,9 +5,9 @@ import time
 from skimage.metrics import structural_similarity as compare_ssim
 import argparse
 
+score_thres = 0.98
  
-def capture_frame(filePath, output_dir, mirror=False):
- 
+def capture_frame(filePath, output_dir, mirror=False): 
     cap = cv2.VideoCapture(filePath)
     cv2.namedWindow('Playing..',cv2.WINDOW_AUTOSIZE)
     count = 0
@@ -46,7 +46,7 @@ def capture_frame(filePath, output_dir, mirror=False):
                 print("SSIM: {}".format(score))
 
                 # On sauvegarde quand on change de vue.
-                if score < 0.99:
+                if score < score_thres:
                     cv2.imwrite(os.path.join(output_dir, 'Unit_%03d.png') % count, frame)
                     count += 1
 
